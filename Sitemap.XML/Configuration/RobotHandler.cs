@@ -21,9 +21,9 @@ namespace Sitemap.XML.Configuration
 	        var site = Context.Site;
 	        if (!args.Url.FilePath.Contains(Constants.RobotsFileName)) return;
 
-            args.Context.Response.ClearHeaders();
-            args.Context.Response.ClearContent();
-            args.Context.Response.ContentType = "text/plain";
+            args.HttpContext.Response.ClearHeaders();
+            args.HttpContext.Response.ClearContent();
+            args.HttpContext.Response.ContentType = "text/plain";
 			
             var content = string.Empty;
             try
@@ -32,7 +32,7 @@ namespace Sitemap.XML.Configuration
                 var sitemapManager = new SitemapManager(config);
 
                 content = sitemapManager.GetRobotSite();
-                args.Context.Response.Write(content);
+                args.HttpContext.Response.Write(content);
             }
             catch (Exception e)
             {
@@ -41,8 +41,8 @@ namespace Sitemap.XML.Configuration
 			finally
             {
 
-                args.Context.Response.Flush();
-                args.Context.Response.End();
+                args.HttpContext.Response.Flush();
+                args.HttpContext.Response.End();
             }
         }
     }

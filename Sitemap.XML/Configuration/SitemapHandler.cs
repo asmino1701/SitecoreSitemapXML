@@ -31,9 +31,9 @@ namespace Sitemap.XML.Configuration
 			if (!args.Url.FilePath.Contains(sitemapHandler)) return;
 
 			// Important to return qualified XML (text/xml) for sitemaps
-			args.Context.Response.ClearHeaders();
-			args.Context.Response.ClearContent();
-			args.Context.Response.ContentType = "text/xml";
+			args.HttpContext.Response.ClearHeaders();
+			args.HttpContext.Response.ClearContent();
+			args.HttpContext.Response.ContentType = "text/xml";
 
 			// Checking the HTML cache first
 			var site = Context.Site;
@@ -42,8 +42,8 @@ namespace Sitemap.XML.Configuration
             var cache = CacheManager.GetHtmlCache(site).GetHtml(cacheKey);
             if (!string.IsNullOrWhiteSpace(cache))
             {
-                args.Context.Response.Write(cache);
-                args.Context.Response.End();
+                args.HttpContext.Response.Write(cache);
+                args.HttpContext.Response.End();
                 return;
             }
 #endif
@@ -55,7 +55,7 @@ namespace Sitemap.XML.Configuration
 				var sitemapManager = new SitemapManager(config);
 
 				content = sitemapManager.BuildSiteMapForHandler();
-				args.Context.Response.Write(content);
+				args.HttpContext.Response.Write(content);
 			}
 			catch (Exception e)
 			{
@@ -66,8 +66,8 @@ namespace Sitemap.XML.Configuration
 #if !DEBUG
                 CacheManager.GetHtmlCache(site).SetHtml(cacheKey, content);
 #endif
-				args.Context.Response.Flush();
-				args.Context.Response.End();
+				args.HttpContext.Response.Flush();
+				args.HttpContext.Response.End();
 			}
 		}
 	}
