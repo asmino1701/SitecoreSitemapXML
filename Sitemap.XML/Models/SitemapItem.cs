@@ -115,13 +115,22 @@ namespace Sitemap.XML.Models
             options.SiteResolving = Sitecore.Configuration.Settings.Rendering.SiteResolving;
             options.Site = SiteContext.GetSite(site.Name);
             options.AlwaysIncludeServerUrl = false;
-	        if (language != null)
-	        {
-		        options.LanguageEmbedding = LanguageEmbedding.Always;
-		        options.Language = language;
-	        }
+            string url = "";
 
-			string url = Sitecore.Links.LinkManager.GetItemUrl(item, options);
+            if (language != null)
+            {
+                options.LanguageEmbedding = LanguageEmbedding.Always;
+                options.Language = language;
+                using (new LanguageSwitcher(language))
+                {
+                    url = Sitecore.Links.LinkManager.GetItemUrl(item, options);
+                }                
+            }
+            else
+            {
+                url = Sitecore.Links.LinkManager.GetItemUrl(item, options);
+            }
+
 
             var serverUrl = (new SitemapManagerConfiguration(site.Name)).ServerUrl;
 
