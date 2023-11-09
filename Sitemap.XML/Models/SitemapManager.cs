@@ -460,8 +460,10 @@ namespace Sitemap.XML.Models
 	    {
 		    StringBuilder sitemapContent = new StringBuilder(string.Empty);
 		    sitemapContent.AppendLine("User-agent: *");
-		    sitemapContent.AppendLine("Disallow:");
-		    string sitemapUrl = _config.ServerUrl + "/" + _config.SitemapNameForRobots;
+		    sitemapContent.AppendLine("Disallow: /ns/");
+            sitemapContent.AppendLine("Disallow: /QA/");
+            sitemapContent.AppendLine("Disallow: /UITest/");
+            string sitemapUrl = _config.ServerUrl + "/" + _config.SitemapNameForRobots;
 		    string sitemapLine = string.Concat("Sitemap: ", sitemapUrl);
 		    if (!sitemapContent.ToString().Contains(sitemapLine))
 		    {
