@@ -460,10 +460,20 @@ namespace Sitemap.XML.Models
 	    {
 		    StringBuilder sitemapContent = new StringBuilder(string.Empty);
 		    sitemapContent.AppendLine("User-agent: *");
-		    sitemapContent.AppendLine("Disallow: /ns/");
-            sitemapContent.AppendLine("Disallow: /QA/");
+		    sitemapContent.AppendLine("Disallow: /ns/*");
+            sitemapContent.AppendLine("Disallow: /QA/*");
             sitemapContent.AppendLine("Disallow: /UITest/");
             string sitemapUrl = _config.ServerUrl + "/" + _config.SitemapNameForRobots;
+            if (sitemapUrl.Contains("seiumb")){
+                sitemapContent.AppendLine("Disallow: /*/ns/*");
+                sitemapContent.AppendLine("Disallow: /*/QA/*");
+                sitemapContent.AppendLine("Disallow: /*/UITest/*");
+            }
+            else
+            {
+                sitemapContent.AppendLine("Disallow: /QA%20do%20not%20delete/*");
+                sitemapContent.AppendLine("Disallow: /Migration/*");
+            }
 		    string sitemapLine = string.Concat("Sitemap: ", sitemapUrl);
 		    if (!sitemapContent.ToString().Contains(sitemapLine))
 		    {
